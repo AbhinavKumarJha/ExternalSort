@@ -150,9 +150,6 @@ seastar::future<> do_iteration(const std::string& input_path, int run_size,
 seastar::future<> external_sort(int buffer_size, seastar::sstring& dir_path) {
   co_await seastar::smp::invoke_on_all([=]() -> seastar::future<> {
     auto file_size = co_await seastar::file_size(dir_path + "input.txt");
-    // lg.info("visdvf {} {}", seastar::sstring(dir_path + "input.txt"),
-    // dir_path); lg.info("visdvf {} {} {}", seastar::sstring(dir_path +
-    // "input.txt"), dir_path, file_size);
     int run_size = 1, parity = 0, cpu_idx = seastar::this_shard_id(),
         num_cpu = seastar::smp::count;
     int record_per_shard = file_size / (num_cpu * record_size);
