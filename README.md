@@ -8,7 +8,7 @@ Pre-requisites:
 Commands for Running on terminal:
 1) cmake in the working directory
 2) make
-3) ./sort --buffer-size 10000 --dir-path "...path-for-input-file..."
+3) ./sort --buffer-size 10000 --dir-path "/dir-path/of/input/"
 
 EXPECTED results: 
 1) output.txt file in same directory.
