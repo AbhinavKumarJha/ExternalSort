@@ -53,8 +53,9 @@ class CombinerHeapComparator {
 seastar::future<> combine_outputs(int record_size,
                                   const seastar::sstring& dir_path) {
   auto out_file = co_await seastar::open_file_dma(
-      "/home/akj/assgn/output.txt",
-      seastar::open_flags::create | seastar::open_flags::rw);
+      dir_path + "output.txt", seastar::open_flags::create |
+                                   seastar::open_flags::rw |
+                                   seastar::open_flags::truncate);
   int num_cpu = seastar::smp::count;
   std::vector<std::string> buffer(num_cpu);
   std::vector<seastar::file> files(num_cpu);
