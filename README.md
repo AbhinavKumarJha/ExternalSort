@@ -4,6 +4,7 @@ Pre-requisites:
 * Need to have all installations as per [https://github.com/scylladb/seastar/tree/master](https://github.com/scylladb/seastar/blob/master/README.md)
 * Having a seastar clone in the working directory also works fine(along with other installations)
 * input.txt file for reading records.
+* /tmp/ subdirectory in the directory containing input.txt.
 
 Commands for Running on terminal:
 1) cmake in the working directory
