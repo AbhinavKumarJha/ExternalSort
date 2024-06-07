@@ -67,7 +67,6 @@ seastar::future<> combine_outputs(int record_size,
   for (int i = 0; i < num_cpu; ++i) {
     std::string output_path =
         dir_path + "tmp/output" + std::to_string(i) + ".txt";
-    ;
     size[i] = co_await seastar::file_size(output_path);
     files[i] =
         co_await seastar::open_file_dma(output_path, seastar::open_flags::ro);
@@ -90,7 +89,9 @@ seastar::future<> combine_outputs(int record_size,
           cursor[top], buffer[top].data(), record_size);
       indexed_heap.push(top);
     }
+    else co_await files[top].close();
   }
+  co_await out_file.close();
 }
 
 // Performs an iteration where records in the input file( which are already
@@ -108,8 +109,8 @@ seastar::future<> do_iteration(const std::string& input_path, int run_size,
   auto out_file = co_await seastar::open_file_dma(
       output_path, seastar::open_flags::create | seastar::open_flags::rw |
                        seastar::open_flags::truncate);
-  auto in_file =
-      co_await seastar::open_file_dma(input_path, seastar::open_flags::ro);
+  auto in_file = co_await
+      seastar::open_file_dma(input_path, seastar::open_flags::ro);
   std::vector<std::string> buffer(buffer_size);
   int i = start_index, pos = 0;
   while (i <= (int)end_index) {
@@ -143,6 +144,8 @@ seastar::future<> do_iteration(const std::string& input_path, int run_size,
       }
     }
   }
+  co_await out_file.close();
+  co_await in_file.close();
   co_return;
 }
 
